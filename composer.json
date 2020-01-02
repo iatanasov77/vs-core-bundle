@@ -1,0 +1,12 @@
+{
+    "name": "iatanasov77/vs-core-bundle",
+    "type": "project",
+    "license": "MIT",
+    "description": "VankoSoft Symfony Application Core",
+    "require": {
+        "php": "^7.1.3",
+        "symfony/console": "*",
+        "composer/semver": "^1.5"
+    },
+    "minimum-stability" : "dev"
+}

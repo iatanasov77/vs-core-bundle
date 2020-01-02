@@ -1,0 +1,11 @@
+services:
+    IA\ApplicationCoreBundle\Command\AssetsSourcesCommand:
+        arguments:
+            - '@filesystem'
+        tags:
+            - 'console.command'
+    IA\ApplicationCoreBundle\Command\CheckAssetDependenciesCommand:
+        arguments:
+            - '@filesystem'
+        tags:
+            - 'console.command'
