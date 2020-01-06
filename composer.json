@@ -8,5 +8,10 @@
         "symfony/console": "*",
         "composer/semver": "^1.5"
     },
+    "autoload" : {
+		"psr-4" : {
+			"IA\\ApplicationCoreBundle\\" : ""
+		}
+	},
     "minimum-stability" : "dev"
 }
