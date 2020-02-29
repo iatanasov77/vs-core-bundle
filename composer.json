@@ -6,7 +6,9 @@
     "require": {
         "php": "^7.1.3",
         "symfony/console": "*",
-        "composer/semver": "^1.5"
+        "composer/semver": "^1.5",
+        "doctrine/mongodb-odm-bundle": "^4.1",
+        "symfony/security-acl": "^3.0"
     },
     "autoload" : {
 		"psr-4" : {
