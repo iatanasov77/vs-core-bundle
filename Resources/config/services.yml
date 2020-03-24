@@ -9,3 +9,22 @@ services:
             - '@filesystem'
         tags:
             - 'console.command'
+
+    app.general_settings:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - 'IA\ApplicationCoreBundle\Entity\GeneralSettings'
+    app.maintenance_mode:
+        class: IA\ApplicationCoreBundle\EventListener\MaintenanceListener
+        arguments: 
+            - '@service_container'
+            - '@app.general_settings'
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
+            
+    IA\ApplicationCoreBundle\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+        # uncomment the next line if you are not using autoconfigure
+        # tags: [kernel.event_subscriber]
+    
