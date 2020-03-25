@@ -2,9 +2,5 @@
 
 class Alerts
 {
-    public static $messages  = [];
-
-    public static function messages() {
-        return self::$messages;
-    }
+    public static $WARNINGS  = [];
 }
