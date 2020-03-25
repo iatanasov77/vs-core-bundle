@@ -34,6 +34,13 @@ class GeneralSettings
      */
     private $maintenancePage;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="languages", type="string")
+     */
+    private $languages;
+    
     public function __construct()
     {
         $this->attributes = new ArrayCollection();
@@ -66,5 +73,17 @@ class GeneralSettings
         $this->maintenancePage = $maintenancePage;
         
         return $this;
+    }
+    
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
+        
+        return $this;
+    }
+    
+    public function getLanguages()
+    {
+        return $this->languages;
     }
 }
