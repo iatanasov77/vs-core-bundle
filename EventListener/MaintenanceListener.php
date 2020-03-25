@@ -50,7 +50,7 @@ class MaintenanceListener
                 
                 $event->stopPropagation();
             } else {
-                Alerts::$messages[]   = 'The System is in Maintenance Mode !';
+                Alerts::$WARNINGS[]   = 'The System is in Maintenance Mode !';
             }   
         }
     }
