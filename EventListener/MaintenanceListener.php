@@ -5,6 +5,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityRepository;
 
+use IA\ApplicationCoreBundle\Twig\Alerts;
+
 class MaintenanceListener
 {
     private $container;
@@ -39,13 +41,17 @@ class MaintenanceListener
         
         // https://symfony.com/doc/current/security.html#hierarchical-roles
         // If maintenance is active and in prod environment and user is not admin
-        if ( $maintenanceMode
-            && ( ! $this->user || ! $this->user->hasRole( 'ROLE_ADMIN' ) )
-            && ! $debug 
-        ){
-            $event->setResponse( new Response( $maintenancePage->getText(), 503 ) );
-            
-            $event->stopPropagation();
+        if ( $maintenanceMode ) {
+            if (
+                ( ! $this->user || ! $this->user->hasRole( 'ROLE_ADMIN' ) )
+                && ! $debug
+            ) {
+                $event->setResponse( new Response( $maintenancePage->getText(), 503 ) );
+                
+                $event->stopPropagation();
+            } else {
+                Alerts::$messages[]   = 'The System is in Maintenance Mode !';
+            }   
         }
     }
 }
