@@ -15,8 +15,8 @@ class MaintenanceListener
     
     public function __construct( ContainerInterface $container, EntityRepository $repo )
     {
-        $this->repo         = $repo;
         $this->container    = $container;
+        $this->repo         = $repo;
         
         $token              = $this->container->get( 'security.token_storage' )->getToken();
         if ( $token ) {
@@ -26,6 +26,12 @@ class MaintenanceListener
     
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $schema             = $this->container->get( 'doctrine' )->getConnection()->getSchemaManager();
+        if ( $schema->tablesExist( ['IACORE_GeneralSettings'] ) == false ) {
+            Alerts::$WARNINGS[]   = 'The table IACORE_GeneralSettings does not exists !';
+            return;
+        }
+        
         $settings           = $this->repo->findBy( [], ['id'=>'DESC'], 1, 0 );
         $maintenanceMode    = false;
         $maintenancePage    = false;
@@ -35,11 +41,10 @@ class MaintenanceListener
             $maintenanceMode    = $settings[0]->getMaintenanceMode();
             $maintenancePage    = $settings[0]->getMaintenancePage();
             
-            // This will detect if we are in dev environment (app_dev.php)
+            // This will detect if we are in dev environment
             $debug              = in_array( $this->container->get('kernel')->getEnvironment(), ['dev'] );
         }
         
-        // https://symfony.com/doc/current/security.html#hierarchical-roles
         // If maintenance is active and in prod environment and user is not admin
         if ( $maintenanceMode ) {
             if (

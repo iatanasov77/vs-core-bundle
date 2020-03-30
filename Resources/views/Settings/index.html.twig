@@ -1,0 +1,79 @@
+
+<div class="container-fluid  dashboard-content">
+    <div class="row">
+        <!-- ============================================================== -->
+        <!-- basic tabs  -->
+        <!-- ============================================================== -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+            	<h5 class="card-header">Global Settings</h5>
+            	<div class="card-body">
+            	   {% include 'admin/pages/Settings/form-settings.html.twig' %}
+                </div>
+            </div>
+            
+            {% for site in sites %}
+            <div class="card">
+                <h5 class="card-header">{{ site.title }}</h5>
+                <div class="card-body">
+                
+                    {{ form_start(form, { 'attr': {'class': 'form-horizontal '} }) }}
+                        {{ form_widget(form._token) }}
+                    
+                        {% if form_errors(form) is not empty %}
+                            <div class="alert alert-block alert-danger fade in">
+                                <button type="button" class="close close-sm" data-dismiss="alert">
+                                    <i class="icon-remove"></i>
+                                </button>
+                                <strong>Error!</strong> {{ form_errors(form) }}
+                            </div>
+                        {% endif %}
+                        
+                        <label class="custom-control custom-checkbox">  
+                            <input type="checkbox" id="page_form_enabled" name="settings_form[maintenanceMode]" 
+                                class="custom-control-input form-check-input" value="{{ item.maintenanceMode }}"
+                                {% if item.maintenanceMode %}checked="checked"{% endif %}
+                            />
+                            <span class="custom-control-label">Maintenance Mode</span>
+                        </label>
+                    
+                        {% set tree_data_options = "url:'" ~ path( 'vsorg_pages_tree' ) ~ "', required:true" %}
+                        <div class="form-group">
+                            {{ form_label(form.maintenancePage, null, {
+                                'label_attr': {'class': 'col-form-label'}
+                                }) 
+                            }}
+                            {{ form_widget(form.maintenancePage, {
+                                'attr': {
+                                    'class': 'easyui-combotree',
+                                    'data-options': tree_data_options,
+                                    'data-value': item.maintenancePage
+                                }
+                            }) }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form_label(form.languages, null, {
+                                'label_attr': {'class': 'col-form-label'}
+                                }) 
+                            }}
+                            {{ form_widget(form.languages, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
+                        <div class="row">&nbsp;</div>
+                        
+                        <div class="input-group row">
+                            <div class="col-sm-1">
+                                {{ form_widget(form.btnSave, {'attr': {'class': 'btn btn-primary', 'id':'btnSave'}}) }}
+                            </div>
+                            
+                            {{ form_widget(form.btnCancel, {'attr': {'class': 'btn btn-default', 'id':'btnCancel'}}) }}
+                        </div>
+                    {{ form_end(form, {'render_rest': false}) }}
+                
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div> 

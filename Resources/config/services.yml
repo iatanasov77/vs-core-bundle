@@ -13,13 +13,17 @@ services:
         tags:
             - 'console.command'
 
+    session:
+        public: true
+        class: Symfony\Component\HttpFoundation\Session\Session
+        
     app.general_settings:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - 'IA\ApplicationCoreBundle\Entity\GeneralSettings'
-    app.maintenance_mode:
-        class: IA\ApplicationCoreBundle\EventListener\MaintenanceListener
+            
+    IA\ApplicationCoreBundle\EventListener\MaintenanceListener:
         arguments: 
             - '@service_container'
             - '@app.general_settings'
@@ -30,14 +34,8 @@ services:
         arguments: ['%kernel.default_locale%']
         # uncomment the next line if you are not using autoconfigure
         # tags: [kernel.event_subscriber]
-    
-    session:
-        public: true
-        class: Symfony\Component\HttpFoundation\Session\Session
             
-    user_locale_subscriber:
-        class: App\EventSubscriber\UserLocaleSubscriber
+    IA\ApplicationCoreBundle\EventSubscriber\UserLocaleSubscriber:
         arguments: ["@session"]
         tags:
             - { name: kernel.event_subscriber }
-              
