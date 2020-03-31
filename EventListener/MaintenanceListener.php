@@ -3,20 +3,18 @@
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityRepository;
 
 use IA\ApplicationCoreBundle\Twig\Alerts;
+use IA\ApplicationCoreBundle\Entity\GeneralSettings;
 
 class MaintenanceListener
 {
-    private $container;
-    private $repo;
-    private $user;
+    protected $container;
+    protected $user;
     
-    public function __construct( ContainerInterface $container, EntityRepository $repo )
+    public function __construct( ContainerInterface $container )
     {
         $this->container    = $container;
-        $this->repo         = $repo;
         
         $token              = $this->container->get( 'security.token_storage' )->getToken();
         if ( $token ) {
@@ -32,7 +30,8 @@ class MaintenanceListener
             return;
         }
         
-        $settings           = $this->repo->findBy( [], ['id'=>'DESC'], 1, 0 );
+        $repo               = $this->container->get( 'doctrine' )->getRepository( GeneralSettings::class );
+        $settings           = $repo->findBy( [], ['id'=>'DESC'], 1, 0 );
         $maintenanceMode    = false;
         $maintenancePage    = false;
         $debug              = false;
