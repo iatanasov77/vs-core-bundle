@@ -16,17 +16,10 @@ services:
     session:
         public: true
         class: Symfony\Component\HttpFoundation\Session\Session
-        
-    vs_core.repository.general_settings:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - 'IA\ApplicationCoreBundle\Entity\GeneralSettings'
             
     IA\ApplicationCoreBundle\EventListener\MaintenanceListener:
         arguments: 
             - '@service_container'
-            - '@vs_core.repository.general_settings'
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
             
