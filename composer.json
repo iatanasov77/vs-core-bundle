@@ -12,6 +12,9 @@
         "alcaeus/mongo-php-adapter": "^1.1",
         "doctrine/mongodb-odm-bundle": "^3.0"
     },
+    "require-dev": {
+        "symplify/changelog-linker": "^7.3@dev"
+    },
     "autoload" : {
 		"psr-4" : {
 			"IA\\ApplicationCoreBundle\\" : ""
