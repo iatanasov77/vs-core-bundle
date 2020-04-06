@@ -1,7 +1,11 @@
 services:
     twig.alerts:
         class: IA\ApplicationCoreBundle\Twig\Alerts
-        
+    
+    IA\ApplicationCoreBundle\Command\BumpVersionCommand:
+        tags:
+            - 'console.command'
+                
     IA\ApplicationCoreBundle\Command\AssetsSourcesCommand:
         arguments:
             - '@filesystem'

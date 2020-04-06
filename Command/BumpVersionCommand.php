@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 class BumpVersionCommand extends Command
-{
+{    
     protected static $defaultName = 'vs:bumpversion';
     
     protected function configure()
@@ -75,5 +75,7 @@ class BumpVersionCommand extends Command
         // Commit VERSION and CHANGES files
         exec( sprintf( 'git add %s %s', basename( $versionFile ), basename( $changesFile ) ) );
         exec( sprintf( 'git commit -m "Version bump to %s"', $suggestedVersion ) );
+        
+        return 0;
     }
 }
