@@ -1,0 +1,3 @@
+vs_core_settings:
+    path: /settings
+    controller: IA\ApplicationCoreBundle\Controller\GeneralSettingsController::index

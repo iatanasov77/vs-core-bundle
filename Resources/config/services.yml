@@ -1,4 +1,11 @@
 services:
+    twig.alerts:
+        class: IA\ApplicationCoreBundle\Twig\Alerts
+    
+    IA\ApplicationCoreBundle\Command\BumpVersionCommand:
+        tags:
+            - 'console.command'
+                
     IA\ApplicationCoreBundle\Command\AssetsSourcesCommand:
         arguments:
             - '@filesystem'
@@ -9,3 +16,23 @@ services:
             - '@filesystem'
         tags:
             - 'console.command'
+
+    session:
+        public: true
+        class: Symfony\Component\HttpFoundation\Session\Session
+            
+    IA\ApplicationCoreBundle\EventListener\MaintenanceListener:
+        arguments: 
+            - '@service_container'
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
+            
+    IA\ApplicationCoreBundle\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+        # uncomment the next line if you are not using autoconfigure
+        tags: [kernel.event_subscriber]
+            
+    IA\ApplicationCoreBundle\EventSubscriber\UserLocaleSubscriber:
+        arguments: ["@session"]
+        # uncomment the next line if you are not using autoconfigure
+        tags: [kernel.event_subscriber]
