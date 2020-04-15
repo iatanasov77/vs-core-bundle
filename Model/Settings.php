@@ -1,9 +1,9 @@
-<?php namespace IA\ApplicationCoreBundle\Entity;
+<?php namespace IA\ApplicationCoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use IA\CmsBundle\Entity\Page;
 
-class GeneralSettingsModel
+class Settings
 {   
     /**
      * @var integer
